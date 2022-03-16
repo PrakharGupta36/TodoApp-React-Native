@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Button,
+  Keyboard,
+} from "react-native";
 
 export default function AddTodo(props) {
   const { submitHandler } = props;
@@ -10,13 +17,17 @@ export default function AddTodo(props) {
       <TextInput
         style={styles.input}
         placeholder='Enter task'
-        onChangeText={(e) => setText(e)}
-        placeholderTextColor='white'
+        onChangeText={(e) => {
+          setText(e);
+        }}
+        placeholderTextColor='#ffffff8e'
       />
       <Button
         title='Add Todo'
         color='#0DD599'
-        onPress={() => submitHandler(text)}
+        onPress={() => {
+          submitHandler(text);
+        }}
       />
     </View>
   );

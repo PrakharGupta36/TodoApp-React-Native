@@ -1,4 +1,12 @@
-import { StyleSheet, View, StatusBar, FlatList } from "react-native";
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  FlatList,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { React, useState } from "react";
 import AppLoading from "expo-app-loading";
 import Header from "./components/Header";
@@ -20,9 +28,15 @@ export default function App() {
   };
 
   const submitHandler = (text) => {
-    setTodos((prevTodos) => {
-      return [{ text: text, key: Math.random().toString() }, ...prevTodos];
-    });
+    if (text.length > 4) {
+      setTodos((prevTodos) => {
+        return [{ text: text, key: Math.random().toString() }, ...prevTodos];
+      });
+    } else {
+      Alert.alert("Short Task Name", "Task must be at least 3 letters long ", [
+        { text: "Understood", onPress: () => console.log("Alert Closed") },
+      ]);
+    }
   };
 
   let [fontsLoaded] = useFonts({
@@ -33,21 +47,27 @@ export default function App() {
     return <AppLoading />;
   } else {
     return (
-      <View style={styles.container}>
-        <Header />
-        <View style={styles.content}>
-          <AddTodo submitHandler={submitHandler} />
-          <View style={styles.list}>
-            <FlatList
-              data={todos}
-              renderItem={({ item }) => (
-                <TodoItem item={item} pressHandler={pressHandler} />
-              )}
-            />
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+          console.log("dismissed keyboard");
+        }}>
+        <View style={styles.container}>
+          <Header />
+          <View style={styles.content}>
+            <AddTodo submitHandler={submitHandler} />
+            <View style={styles.list}>
+              <FlatList
+                data={todos}
+                renderItem={({ item }) => (
+                  <TodoItem item={item} pressHandler={pressHandler} />
+                )}
+              />
+            </View>
           </View>
+          <StatusBar style='auto' />
         </View>
-        <StatusBar style='auto' />
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
