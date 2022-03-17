@@ -39,6 +39,8 @@ export default function App() {
     }
   };
 
+  console.log(todos.length);
+
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
   });
